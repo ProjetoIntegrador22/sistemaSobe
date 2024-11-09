@@ -1,5 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-def LoginPage(request):
-    return render(request, 'login_page.html')
+def redirect_to_login(request):
+    return redirect('/accounts/login')
+
+def test(request):
+    return render(request, 'test.html')
