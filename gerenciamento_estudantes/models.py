@@ -49,6 +49,8 @@ class Estudantes(models.Model):
     foto_perfil=models.FileField()
     endereco=models.TextField()
     curso_id=models.ForeignKey(Cursos, on_delete=models.DO_NOTHING)
+    ano_inicio=models.DateField(null=True)
+    ano_final=models.DateField(null=True)
     criado_em=models.DateTimeField(auto_now_add=True)
     atualizado_em=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
