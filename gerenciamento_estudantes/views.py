@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from gerenciamento_estudantes.models import AdminEscola, Alunos
+from gerenciamento_estudantes.models import AdminEscola, Alunos, Professores
 
 def redirect_to_login(request):
     return redirect('/accounts/login')
@@ -47,3 +47,7 @@ def test(request):
 class AlunosView(ListView):
     model = Alunos
     template_name = 'lista-alunos.html'
+
+class ProfessoresView(ListView):
+    model = Professores
+    template_name = 'lista-professores.html'
