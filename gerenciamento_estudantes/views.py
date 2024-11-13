@@ -4,9 +4,6 @@ from django.shortcuts import render, redirect
 def redirect_to_login(request):
     return redirect('/accounts/login')
 
-def test(request):
-    return render(request, 'test.html')
-
 def profile(request):
     return render(request, 'profile.html')
 
@@ -15,3 +12,12 @@ def contato(request):
 
 def sobre(request):
     return render(request, 'sobre.html')
+
+def test(request):
+    if request.user.groups.filter(name='admin').exists():
+        # User is an admin
+        context = {'is_admin': True}
+    else:
+        # User is not an admin
+        context = {'is_admin': False}
+    return render(request, 'my_template.html', context)
