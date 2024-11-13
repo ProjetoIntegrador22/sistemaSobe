@@ -9,6 +9,7 @@ class Escola(models.Model):
     endereco = models.CharField(max_length=150)
     email = models.EmailField(max_length=150)
     telefone = models.CharField(max_length=150)
+    usuario = models.OneToOneField(User, on_delete=models.DO_NOTHING, default='', blank=True, null=True)
 
     def __str__(self):
         return self.nome + ' | ' + str(self.inep)
@@ -19,6 +20,7 @@ class AdminEscola(models.Model):
     telefone = models.CharField(max_length=150)
     cpf = models.CharField(max_length=150)
     escola = models.ForeignKey(Escola, on_delete=models.DO_NOTHING)
+    usuario = models.OneToOneField(User, on_delete=models.DO_NOTHING, default='', blank=True, null=True)
 
     def __str__(self):
         return self.nome
@@ -29,6 +31,7 @@ class Professores(models.Model):
     telefone = models.CharField(max_length=150)
     cpf = models.CharField(max_length=150)
     escola = models.ForeignKey(Escola, on_delete=models.DO_NOTHING)
+    usuario = models.OneToOneField(User, on_delete=models.DO_NOTHING, default='', blank=True, null=True)
 
     def __str__(self):
         return self.nome
@@ -57,9 +60,10 @@ class Alunos(models.Model):
     telefone = models.CharField(max_length=150)
     rg = models.CharField(max_length=150)
     ra = models.CharField(max_length=150)
-    responsavel = models.OneToOneField(Responsavel, on_delete=models.DO_NOTHING)
+    responsavel = models.OneToOneField(Responsavel, on_delete=models.DO_NOTHING, default='', blank=True, null=True)
     escola = models.ForeignKey(Escola, on_delete=models.DO_NOTHING)
-    turma = models.ForeignKey(Turmas, on_delete=models.DO_NOTHING)
+    turma = models.ForeignKey(Turmas, on_delete=models.DO_NOTHING, default='', blank=True, null=True)
+    usuario = models.OneToOneField(User, on_delete=models.DO_NOTHING, default='', blank=True, null=True)
 
     def __str__(self):
         return self.nome + ' | ' + str(self.ra)
