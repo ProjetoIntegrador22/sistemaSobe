@@ -80,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Admin</a>
+          <a href="#" class="d-block">{{profile.nome}}</a>
         </div>
       </div>
 
@@ -110,18 +110,90 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
             <ul class="nav nav-treeview">
+            <!-- Início Menu Admin -->  
               <li class="nav-item">
                 <a href="#" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Perfil</p>
+                  <p>Gerenciar Alunos</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Boletim</p>
+                  <p>Gerenciar Professores</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gerenciar Turmas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Grade Curricular</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Visualizar Avaliações</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Visualizar Boletims</p>
+                </a>
+              </li>
+              <!-- Fim Menu Admin --> 
+              <!-- Início Menu Professor --> 
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gerenciar Avaliações</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Atualizar Notas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Atualizar Frequência</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Visualizar Alunos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Visualizar Boletims</p>
+                </a>
+              </li>
+              <!-- Fim Menu Professor -->
+              <!-- Início Menu Alunos -->
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dados Pessoais</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Boletim Online</p>
+                </a>
+              </li>
+              <!-- Fim Menu Alunos --> 
             </ul>
           </li>
           <li class="nav-item">
@@ -159,7 +231,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <h5 class="m-0">Dados do Aluno</h5>
+                <h5 class="m-0">{{ profile.nome }} | {{ profile.email }}</h5>
               </div>
               <div class="card-body">
                 <h6 class="card-title"></h6>

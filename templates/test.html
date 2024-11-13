@@ -6,6 +6,15 @@
     <title>Logado</title>
 </head>
 <body>
+    {% if usuario == 'superuser' %}
+    <h2>Superuser</h2>
+    {% elif usuario == 'admin' %}
+    <h2>Admin</h2>
+    {% elif usuario == 'professor' %}
+    <h2>Professor</h2>
+    {% else %}
+    <h2>Aluno</h2>
+    {% endif %}
     <a href="/accounts/logout/"><button type="submit">Logout</button></a>
 </body>
 </html>
