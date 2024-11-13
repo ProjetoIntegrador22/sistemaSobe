@@ -6,3 +6,12 @@ def redirect_to_login(request):
 
 def test(request):
     return render(request, 'test.html')
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def contato(request):
+    return render(request, 'contato.html')
+
+def sobre(request):
+    return render(request, 'sobre.html')

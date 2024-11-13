@@ -21,6 +21,6 @@ from setup import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
     path('', include('gerenciamento_estudantes.urls')),
+    path('accounts/', include('allauth.urls')),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

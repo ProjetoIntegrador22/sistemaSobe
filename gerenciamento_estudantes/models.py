@@ -1,130 +1,86 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Admin(models.Model):
-    id=models.AutoField(primary_key=True)
-    nome=models.CharField(max_length=255)
-    email=models.EmailField(unique=True)
-    senha=models.CharField(max_length=255)
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+class Escola(models.Model):
+    nome = models.CharField(max_length=150)
+    inep = models.CharField(max_length=150)
+    endereco = models.CharField(max_length=150)
+    email = models.EmailField(max_length=150)
+    telefone = models.CharField(max_length=150)
 
-class Funcionarios(models.Model):
-    id=models.AutoField(primary_key=True)
-    nome=models.CharField(max_length=255)
-    email=models.EmailField(unique=True)
-    senha=models.CharField(max_length=255)
-    endereco=models.TextField()
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+class AdminEscola(models.Model):
+    nome = models.CharField(max_length=150)
+    email = models.EmailField(max_length=150)
+    telefone = models.CharField(max_length=150)
+    cpf = models.CharField(max_length=150)
+    escola = models.ForeignKey(Escola, on_delete=models.DO_NOTHING)
 
+class Professores(models.Model):
+    nome = models.CharField(max_length=150)
+    email = models.EmailField(max_length=150)
+    telefone = models.CharField(max_length=150)
+    cpf = models.CharField(max_length=150)
+    escola = models.ForeignKey(Escola, on_delete=models.DO_NOTHING)
 
-class Cursos(models.Model):
-    id=models.AutoField(primary_key=True)
-    nome_curso=models.CharField(max_length=255)
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+class Turmas(models.Model):
+    nome = models.CharField(max_length=150)
+    data = models.DateField(blank=True, null=True)
+    escola = models.ForeignKey(Escola, on_delete=models.DO_NOTHING)
+
+class Responsavel(models.Model):
+    nome = models.CharField(max_length=150)
+    email = models.EmailField(max_length=150)
+    telefone = models.CharField(max_length=150)
+    cpf = models.CharField(max_length=150)
+
+class Alunos(models.Model):
+    nome = models.CharField(max_length=150)
+    email = models.EmailField(max_length=150)
+    telefone = models.CharField(max_length=150)
+    rg = models.CharField(max_length=150)
+    ra = models.CharField(max_length=150)
+    responsavel = models.OneToOneField(Responsavel, on_delete=models.DO_NOTHING)
+    escola = models.ForeignKey(Escola, on_delete=models.DO_NOTHING)
+    turma = models.ForeignKey(Turmas, on_delete=models.DO_NOTHING)
 
 class Materias(models.Model):
-    id=models.AutoField(primary_key=True)
-    nome_materia=models.CharField(max_length=255)
-    curso_id=models.ForeignKey(Cursos, on_delete=models.CASCADE)
-    funcionario_id=models.ForeignKey(Funcionarios, on_delete=models.CASCADE)
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+    nome = models.CharField(max_length=150)
+    turma = models.ManyToManyField(Turmas, related_name='materias')
+    professores = models.ManyToManyField(Professores, related_name='materias')
 
+class Avaliacoes(models.Model):
+    nome = models.CharField(max_length=150)
+    nota_max = models.DecimalField(max_digits=6, decimal_places=4)
+    data = models.DateField(blank=True, null=True)
+    materia = models.ForeignKey(Materias, on_delete=models.DO_NOTHING)
+    professor = models.ForeignKey(Professores, on_delete=models.DO_NOTHING)
 
-class Estudantes(models.Model):
-    id=models.AutoField(primary_key=True)
-    nome=models.CharField(max_length=255)
-    responsavel=models.CharField(max_length=255)
-    email=models.EmailField(unique=True)
-    senha=models.CharField(max_length=255)
-    genero=models.CharField(max_length=255)
-    foto_perfil=models.FileField()
-    endereco=models.TextField()
-    curso_id=models.ForeignKey(Cursos, on_delete=models.DO_NOTHING)
-    ano_inicio=models.DateField(null=True)
-    ano_final=models.DateField(null=True)
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+class Notas(models.Model):
+    aluno = models.ForeignKey(Alunos, on_delete=models.DO_NOTHING)
+    avaliacao = models.ForeignKey(Avaliacoes, on_delete=models.DO_NOTHING)
+    data = models.DateField(blank=True, null=True)
+    nota = models.DecimalField(max_digits=6, decimal_places=4)
 
 class Frequencia(models.Model):
-    id=models.AutoField(primary_key=True)
-    materia_id=models.ForeignKey(Materias, on_delete=models.DO_NOTHING)
-    fequencia_data=models.DateTimeField(auto_now_add=True)
-    curso_id=models.ForeignKey(Cursos, on_delete=models.DO_NOTHING)
-    criado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+    aluno = models.ForeignKey(Alunos, on_delete=models.DO_NOTHING)
+    data = models.DateField()
+    presenca = models.BooleanField(default=False)
+    justificativa = models.TextField(max_length=500, blank=True, null=True)
 
-class RelatorioFrequencia(models.Model):
-    id=models.AutoField(primary_key=True)
-    estudante_id=models.ForeignKey(Estudantes, on_delete=models.DO_NOTHING)
-    frequencia_id=models.ForeignKey(Frequencia, on_delete=models.CASCADE)
-    status=models.BooleanField(default=False)
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
 
-class RelatorioAusenciaEstudante(models.Model):
-    id=models.AutoField(primary_key=True)
-    estudante_id=models.ForeignKey(Estudantes, on_delete=models.CASCADE)
-    ausencia_data=models.CharField(max_length=255)
-    ausencia_mensagem=models.TextField()
-    ausencia_status=models.BooleanField(default=False)
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
 
-class RelatorioAusenciaFuncionario(models.Model):
-    id=models.AutoField(primary_key=True)
-    funcionario_id=models.ForeignKey(Funcionarios, on_delete=models.CASCADE)
-    ausencia_data=models.CharField(max_length=255)
-    ausencia_mensagem=models.TextField()
-    ausencia_status=models.BooleanField(default=False)
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
 
-class FeedbackEstudante(models.Model):
-    id=models.AutoField(primary_key=True)
-    estudante_id=models.ForeignKey(Estudantes, on_delete=models.CASCADE)
-    feedback=models.TextField()
-    feedback_resposta=models.TextField()
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
 
-class FeedbackFuncionario(models.Model):
-    id=models.AutoField(primary_key=True)
-    funcionario_id=models.ForeignKey(Funcionarios, on_delete=models.CASCADE)
-    feedback=models.TextField()
-    feedback_resposta=models.TextField()
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
 
-class NotificacoesEstudante(models.Model):
-    id=models.AutoField(primary_key=True)
-    estudante_id=models.ForeignKey(Estudantes, on_delete=models.CASCADE)
-    mensagem=models.TextField()
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
 
-class NotificacoesFuncionario(models.Model):
-    id=models.AutoField(primary_key=True)
-    funcionario_id=models.ForeignKey(Funcionarios, on_delete=models.CASCADE)
-    mensagem=models.TextField()
-    criado_em=models.DateTimeField(auto_now_add=True)
-    atualizado_em=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+
+
+
+
+
+
 
 
 
