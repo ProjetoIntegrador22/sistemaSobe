@@ -90,11 +90,7 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default = 'postgresql://postgres:ksHxIHnfHBiZbxiUgfFKhYLpGcvDeGuY@junction.proxy.rlwy.net:12548/railway',
-        conn_max_age = 600,
-        ssl_require = not DEBUG
-    )
+    
 }
 
 
